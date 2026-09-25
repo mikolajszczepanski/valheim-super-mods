@@ -21,4 +21,6 @@ On the Settings page, check **Valheim settings → Launch → Launch mode**:
 - If it is **Direct**, scroll to **Profile settings → Launch → Custom launch arguments** and enter `-console`.
 - If it is **Platform (Steam)**, add `-console` in **Steam → Valheim → Properties → General → Launch Options** instead.
 
-Then launch the game modded through Gale. In a world, press **F5** to open the console. Enter `devcommands` before using commands such as `spawn Wood 10`. Using `spawn` can affect achievements in Valheim 1.0.
+Then launch the game modded through Gale. In your own world, press **F5** to open the console and enter `devcommands`. To spawn one each of 60 different materials with a single command, enter `spawn60`. If Valheim asks you to confirm cheats, enter `confirmcheats` and then repeat `spawn60`. The items appear near your character.
+
+`spawn60` uses Valheim's built-in `spawn` command for each item. Cheat commands and spawned items can affect achievements in Valheim 1.0.
