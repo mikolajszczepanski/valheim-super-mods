@@ -8,6 +8,7 @@ Small C# plugins for [Valheim](https://www.valheimgame.com/), built with [BepInE
 | --- | --- |
 | [Increased Carry Weight](ValheimMods/IncreasedCarryWeight/README.md) | Multiplies a player's base carry weight by 10 (normally 300 to 3,000). |
 | [Expanded Player Inventory](ValheimMods/ExpandedPlayerInventory/README.md) | Gives the player at least 64 inventory slots in an 8 × 8 grid. Existing larger inventories are preserved. |
+| [Keep Inventory On Death](ValheimMods/KeepInventoryOnDeath/README.md) | Keeps all inventory items, including equipped items, when a player dies. |
 | [Expanded Item Stacks](ValheimMods/ExpandedItemStacks/README.md) | Multiplies stackable item limits by 20, up to 65,535. |
 | [Expanded Placeable Chests](ValheimMods/ExpandedPlaceableChests/README.md) | Triples the slots in player-built chests by adding rows. |
 | [DevTools](ValheimMods/DevTools/README.md) | Adds the `spawn60` cheat command for testing. |
@@ -57,6 +58,7 @@ ValheimMods/
   Directory.Build.targets        Copies plugin DLLs after a build
   IncreasedCarryWeight/          Player carry weight plugin
   ExpandedPlayerInventory/       Player inventory row plugin
+  KeepInventoryOnDeath/          Retains inventory after death
   ExpandedItemStacks/            Item stack limit plugin
   ExpandedPlaceableChests/       Player-built chest slot plugin
   DevTools/                      Developer console commands
