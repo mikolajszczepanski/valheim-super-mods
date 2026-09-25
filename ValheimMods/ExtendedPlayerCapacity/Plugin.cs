@@ -1,16 +1,20 @@
+using System;
+using System.Collections.Generic;
 using BepInEx;
 using HarmonyLib;
 
 namespace ExtendedPlayerCapacity
 {
-    [BepInPlugin(PluginId, "Extended Player Capacity", "1.2.0")]
+    [BepInPlugin(PluginId, "Extended Player Capacity", "1.3.0")]
     public sealed class Plugin : BaseUnityPlugin
     {
         private const string PluginId = "com.valheimmods.extendedplayercapacity";
         private const float CarryWeightMultiplier = 10f;
         private const int InventoryRows = 8;
-        private const int OriginalStackLimit = 50;
-        private const int NewStackLimit = 1000;
+        private const int StackMultiplier = 20;
+
+        private static readonly Dictionary<string, int> ExpandedStackLimits =
+            new Dictionary<string, int>(StringComparer.Ordinal);
 
         private static readonly string[] ItemPrefabs =
         {
@@ -33,7 +37,7 @@ namespace ExtendedPlayerCapacity
         {
             _harmony = new Harmony(PluginId);
             _harmony.PatchAll(typeof(Plugin).Assembly);
-            Logger.LogInfo("Extended Player Capacity loaded: 10x base carry weight, 64 inventory slots, and 1,000-item stacks for items normally capped at 50.");
+            Logger.LogInfo("Extended Player Capacity loaded: 10x base carry weight, 64 inventory slots, and 20x stack limits for stackable items.");
         }
 
         private void OnDestroy()
@@ -44,10 +48,26 @@ namespace ExtendedPlayerCapacity
         private static void IncreaseStackLimit(ItemDrop itemDrop)
         {
             var shared = itemDrop?.m_itemData?.m_shared;
-            if (shared != null && shared.m_maxStackSize == OriginalStackLimit)
+            if (shared == null)
             {
-                shared.m_maxStackSize = NewStackLimit;
+                return;
             }
+
+            string prefabName = itemDrop.gameObject.name;
+            if (!ExpandedStackLimits.TryGetValue(prefabName, out int expandedLimit))
+            {
+                if (shared.m_maxStackSize <= 1)
+                {
+                    return;
+                }
+
+                // Inventory saves stack counts as UInt16. Remember the result
+                // so registry refreshes never multiply the same item again.
+                expandedLimit = (int)Math.Min((long)shared.m_maxStackSize * StackMultiplier, ushort.MaxValue);
+                ExpandedStackLimits.Add(prefabName, expandedLimit);
+            }
+
+            shared.m_maxStackSize = expandedLimit;
         }
 
         [HarmonyPatch(typeof(ObjectDB), "UpdateRegisters")]
@@ -70,7 +90,18 @@ namespace ExtendedPlayerCapacity
         {
             private static void Postfix(ItemDrop __instance)
             {
-                IncreaseStackLimit(__instance);
+                // A spawned drop may own a copy of SharedData. Copy the limit
+                // from its registered prefab instead of multiplying it again.
+                var prefab = __instance.m_itemData?.m_dropPrefab;
+                var instanceShared = __instance.m_itemData?.m_shared;
+                if (prefab != null && instanceShared != null)
+                {
+                    var prefabShared = prefab.GetComponent<ItemDrop>()?.m_itemData?.m_shared;
+                    if (prefabShared != null)
+                    {
+                        instanceShared.m_maxStackSize = prefabShared.m_maxStackSize;
+                    }
+                }
             }
         }
 
