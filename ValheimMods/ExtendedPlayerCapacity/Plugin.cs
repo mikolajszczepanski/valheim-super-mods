@@ -3,12 +3,14 @@ using HarmonyLib;
 
 namespace ExtendedPlayerCapacity
 {
-    [BepInPlugin(PluginId, "Extended Player Capacity", "1.1.0")]
+    [BepInPlugin(PluginId, "Extended Player Capacity", "1.2.0")]
     public sealed class Plugin : BaseUnityPlugin
     {
         private const string PluginId = "com.valheimmods.extendedplayercapacity";
         private const float CarryWeightMultiplier = 10f;
         private const int InventoryRows = 8;
+        private const int OriginalStackLimit = 50;
+        private const int NewStackLimit = 1000;
 
         private static readonly string[] ItemPrefabs =
         {
@@ -31,12 +33,45 @@ namespace ExtendedPlayerCapacity
         {
             _harmony = new Harmony(PluginId);
             _harmony.PatchAll(typeof(Plugin).Assembly);
-            Logger.LogInfo("Extended Player Capacity loaded: 10x base carry weight and 64 inventory slots.");
+            Logger.LogInfo("Extended Player Capacity loaded: 10x base carry weight, 64 inventory slots, and 1,000-item stacks for items normally capped at 50.");
         }
 
         private void OnDestroy()
         {
             _harmony?.UnpatchSelf();
+        }
+
+        private static void IncreaseStackLimit(ItemDrop itemDrop)
+        {
+            var shared = itemDrop?.m_itemData?.m_shared;
+            if (shared != null && shared.m_maxStackSize == OriginalStackLimit)
+            {
+                shared.m_maxStackSize = NewStackLimit;
+            }
+        }
+
+        [HarmonyPatch(typeof(ObjectDB), "UpdateRegisters")]
+        private static class ObjectDbUpdateRegistersPatch
+        {
+            private static void Postfix(ObjectDB __instance)
+            {
+                foreach (var prefab in __instance.m_items)
+                {
+                    if (prefab != null)
+                    {
+                        IncreaseStackLimit(prefab.GetComponent<ItemDrop>());
+                    }
+                }
+            }
+        }
+
+        [HarmonyPatch(typeof(ItemDrop), "Awake")]
+        private static class ItemDropAwakePatch
+        {
+            private static void Postfix(ItemDrop __instance)
+            {
+                IncreaseStackLimit(__instance);
+            }
         }
 
         [HarmonyPatch(typeof(Player), "Awake")]
