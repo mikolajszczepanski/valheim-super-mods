@@ -6,6 +6,19 @@ The extra rows are applied when a player spawns and saved with the character. Re
 
 ## Build and install
 
-From the `ValheimMods` solution folder, run `dotnet build .\ValheimMods.sln`. The shared build target copies `ExtendedPlayerCapacity.dll` to the Gale `Default` profile's `BepInEx\plugins` folder. Launch Valheim using Gale's **Start modded** option.
+From the `ValheimMods` solution folder, run `dotnet build .\ValheimMods.sln`. The shared build target copies `ExtendedPlayerCapacity.dll` to the Gale `Default` profile's `BepInEx\plugins` folder. Launch Valheim using Gale's **Launch modded** button.
 
 For multiplayer, each player who wants the increased capacity should install the plugin in their own Gale profile.
+
+## Optional: enable the developer console
+
+The console is not required for this plugin. To use Valheim commands while launching through Gale, select the **Default** profile, then click the **Settings** gear in the far-left sidebar. It is circled below, directly under the cube icon:
+
+![Gale Settings gear circled in the left sidebar](assets/gale-settings.png)
+
+On the Settings page, check **Valheim settings → Launch → Launch mode**:
+
+- If it is **Direct**, scroll to **Profile settings → Launch → Custom launch arguments** and enter `-console`.
+- If it is **Platform (Steam)**, add `-console` in **Steam → Valheim → Properties → General → Launch Options** instead.
+
+Then launch the game modded through Gale. In a world, press **F5** to open the console. Enter `devcommands` before using commands such as `spawn Wood 10`. Using `spawn` can affect achievements in Valheim 1.0.
