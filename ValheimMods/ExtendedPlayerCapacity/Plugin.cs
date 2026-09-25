@@ -5,15 +5,19 @@ using HarmonyLib;
 
 namespace ExtendedPlayerCapacity
 {
-    [BepInPlugin(PluginId, "Extended Player Capacity", "1.3.0")]
+    [BepInPlugin(PluginId, "Extended Player Capacity", "1.4.0")]
     public sealed class Plugin : BaseUnityPlugin
     {
         private const string PluginId = "com.valheimmods.extendedplayercapacity";
         private const float CarryWeightMultiplier = 10f;
         private const int InventoryRows = 8;
         private const int StackMultiplier = 20;
+        private const int ChestSlotMultiplier = 3;
 
         private static readonly Dictionary<string, int> ExpandedStackLimits =
+            new Dictionary<string, int>(StringComparer.Ordinal);
+
+        private static readonly Dictionary<string, int> ExpandedChestHeights =
             new Dictionary<string, int>(StringComparer.Ordinal);
 
         private static readonly string[] ItemPrefabs =
@@ -37,7 +41,7 @@ namespace ExtendedPlayerCapacity
         {
             _harmony = new Harmony(PluginId);
             _harmony.PatchAll(typeof(Plugin).Assembly);
-            Logger.LogInfo("Extended Player Capacity loaded: 10x base carry weight, 64 inventory slots, and 20x stack limits for stackable items.");
+            Logger.LogInfo("Extended Player Capacity loaded: 10x base carry weight, 64 player inventory slots, 3x chest slots, and 20x stack limits for stackable items.");
         }
 
         private void OnDestroy()
@@ -124,6 +128,40 @@ namespace ExtendedPlayerCapacity
                 if (__instance.GetInventory().GetHeight() < InventoryRows)
                 {
                     __instance.SetInventorySize(InventoryRows);
+                }
+            }
+        }
+
+        [HarmonyPatch(typeof(Container), "Awake")]
+        private static class ChestAwakePatch
+        {
+            private static void Prefix(Container __instance)
+            {
+                string prefabName = __instance.gameObject.name;
+                int cloneSuffix = prefabName.IndexOf("(Clone)", StringComparison.Ordinal);
+                if (cloneSuffix >= 0)
+                {
+                    prefabName = prefabName.Substring(0, cloneSuffix);
+                }
+
+                // Only player-placeable chests; other containers keep their own sizes.
+                if (!prefabName.StartsWith("piece_chest", StringComparison.Ordinal) ||
+                    __instance.m_height <= 0)
+                {
+                    return;
+                }
+
+                if (!ExpandedChestHeights.TryGetValue(prefabName, out int expandedHeight))
+                {
+                    expandedHeight = __instance.m_height * ChestSlotMultiplier;
+                    ExpandedChestHeights.Add(prefabName, expandedHeight);
+                }
+
+                // Awake creates the inventory from m_width and m_height. Remembering
+                // the target prevents a prefab clone from being multiplied twice.
+                if (__instance.m_height < expandedHeight)
+                {
+                    __instance.m_height = expandedHeight;
                 }
             }
         }

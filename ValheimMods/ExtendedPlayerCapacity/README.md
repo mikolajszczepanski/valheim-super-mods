@@ -2,9 +2,11 @@
 
 This BepInEx plugin gives each player 10 times the base carry weight (3,000 instead of 300) and at least 64 inventory slots (8 columns by 8 rows). Every item that normally stacks gets 20 times its original stack limit: 50 becomes 1,000, 30 becomes 600, and 20 becomes 400. Single-item equipment stays at one per slot. Equipment still occupies inventory slots, as in Valheim's standard inventory.
 
+Player-built chests have three times their original number of slots. The mod adds rows while keeping each chest's original width, so existing item positions stay the same. This applies to wooden, reinforced, black metal, and other placeable chest variants, including existing chests when they load. The chest inventory can scroll to show the added rows. Carts, ships, graves, and loot containers keep their normal sizes.
+
 The extra rows are applied when a player spawns and saved with the character. Removing the plugin does not automatically shrink a character's inventory back to 32 slots. An existing inventory larger than 64 slots is left alone to avoid dropping items.
 
-Keep the plugin enabled while any inventory or container holds stacks larger than the item's normal limit, and back up your saves before removing it. Valheim's normal stack limits would apply again without the plugin. Stack limits are capped at 65,535 because Valheim saves stack counts as unsigned 16-bit values.
+Keep the plugin enabled while any inventory or container holds stacks larger than the item's normal limit or chest items in the added rows, and back up your saves before removing it. Valheim's normal stack limits would apply again without the plugin. Stack limits are capped at 65,535 because Valheim saves stack counts as unsigned 16-bit values.
 
 ## Build and install
 
