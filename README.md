@@ -8,6 +8,7 @@ Small C# plugins for [Valheim](https://www.valheimgame.com/), built with [BepInE
 | --- | --- |
 | [Extended Player Capacity](ValheimMods/ExtendedPlayerCapacity/README.md) | Multiplies a player's base carry weight by 10 (normally 300 to 3,000) and gives the inventory at least 64 slots in an 8 × 8 grid. Existing larger inventories are preserved. |
 | [Hello Valheim](ValheimMods/HelloValheim/README.md) | A minimal starter plugin that writes `Hello Valheim is loaded!` to the BepInEx log. It is useful for checking that your build and modded launch work. |
+| [Unlimited Stamina](ValheimMods/UnlimitedStamina/README.md) | Gives players unlimited stamina for movement and stamina-based actions. |
 
 **Inventory note:** Extended Player Capacity saves the extra inventory rows with the character. Removing the plugin does not shrink the inventory back to 32 slots. For multiplayer, each player who wants the changes should install the plugin in their own profile.
 
@@ -52,6 +53,7 @@ ValheimMods/
   Directory.Build.targets        Copies plugin DLLs after a build
   ExtendedPlayerCapacity/        Carry weight and inventory plugin
   HelloValheim/                  Minimal logging plugin
+  UnlimitedStamina/              Unlimited player stamina plugin
 ```
 
 Contributions and issue reports are welcome. Keep new plugins in separate projects and use the shared build settings so their DLLs deploy to the selected Gale profile.
