@@ -1,0 +1,6 @@
+<Project>
+  <PropertyGroup>
+    <GaleProfile Condition="'$(GaleProfile)' == ''">$(APPDATA)\com.kesomannen.gale\valheim\profiles\Default</GaleProfile>
+    <ValheimPluginsPath Condition="'$(ValheimPluginsPath)' == ''">$(GaleProfile)\BepInEx\plugins</ValheimPluginsPath>
+  </PropertyGroup>
+</Project>

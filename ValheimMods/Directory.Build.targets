@@ -1,0 +1,12 @@
+<Project>
+  <Target Name="CopyValheimPluginDlls" AfterTargets="Build" Condition="'$(IsValheimPlugin)' == 'true' and '$(TargetFramework)' != ''">
+    <Error Condition="!Exists('$(GaleProfile)\BepInEx\core\BepInEx.dll')" Text="BepInEx was not found in the Gale profile '$(GaleProfile)'." />
+    <MakeDir Directories="$(ValheimPluginsPath)" />
+    <ItemGroup>
+      <ValheimPluginDll Include="$(TargetDir)*.dll" />
+    </ItemGroup>
+    <Error Condition="'@(ValheimPluginDll)' == ''" Text="No DLLs were found in the build output '$(TargetDir)'." />
+    <Copy SourceFiles="@(ValheimPluginDll)" DestinationFolder="$(ValheimPluginsPath)" SkipUnchangedFiles="true" />
+    <Message Importance="high" Text="Copied @(ValheimPluginDll->'%(Filename)%(Extension)', ', ') to $(ValheimPluginsPath)" />
+  </Target>
+</Project>
