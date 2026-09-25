@@ -1,6 +1,6 @@
 # Hello Valheim
 
-A minimal BepInEx 5 plugin. When Valheim loads it, the plugin writes `Hello Valheim is loaded!` to the BepInEx log. The project references the BepInEx installation in Gale's `Default` Valheim profile.
+A minimal BepInEx 5 plugin. When Valheim loads it, the plugin writes `Hello Valheim is loaded!` to the BepInEx log. The project references the BepInEx installation in the selected Gale Valheim profile (`Default` unless overridden).
 
 ## Requirement
 
@@ -14,7 +14,7 @@ Install the [Valheim BepInEx pack](https://thunderstore.io/c/valheim/p/denikson/
    dotnet build .\ValheimMods.sln
    ```
 
-   The build copies every DLL in the plugin project's output folder to Gale's Valheim `Default` profile at `%APPDATA%\com.kesomannen.gale\valheim\profiles\Default\BepInEx\plugins`.
+   The build copies every DLL in the plugin project's output folder to the selected Gale profile's `BepInEx\plugins` folder. By default, this is `%APPDATA%\com.kesomannen.gale\valheim\profiles\Default\BepInEx\plugins`.
 
    If Valheim is installed elsewhere, pass `-p:ValheimInstall="C:\path\to\Valheim"`. If your Gale profile is not `Default`, pass `-p:GaleProfile="C:\path\to\your\Gale\profile"`. To choose another plugin folder directly, pass `-p:ValheimPluginsPath="C:\path\to\BepInEx\plugins"`.
 

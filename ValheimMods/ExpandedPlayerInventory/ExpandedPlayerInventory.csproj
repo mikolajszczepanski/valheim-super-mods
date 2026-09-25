@@ -1,0 +1,40 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>netstandard2.1</TargetFramework>
+    <OutputType>Library</OutputType>
+    <AssemblyName>ExpandedPlayerInventory</AssemblyName>
+    <RootNamespace>ExpandedPlayerInventory</RootNamespace>
+    <LangVersion>latest</LangVersion>
+    <IsValheimPlugin>true</IsValheimPlugin>
+    <ValheimInstall Condition="'$(ValheimInstall)' == ''">C:\Program Files (x86)\Steam\steamapps\common\Valheim</ValheimInstall>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Reference Include="BepInEx">
+      <HintPath>$(GaleProfile)\BepInEx\core\BepInEx.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="0Harmony">
+      <HintPath>$(GaleProfile)\BepInEx\core\0Harmony.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="assembly_valheim">
+      <HintPath>$(ValheimInstall)\valheim_Data\Managed\assembly_valheim.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="UnityEngine.CoreModule">
+      <HintPath>$(ValheimInstall)\valheim_Data\Managed\UnityEngine.CoreModule.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="UnityEngine">
+      <HintPath>$(ValheimInstall)\valheim_Data\Managed\UnityEngine.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+  </ItemGroup>
+
+  <Target Name="CheckValheimReferences" BeforeTargets="ResolveReferences">
+    <Error Condition="!Exists('$(GaleProfile)\BepInEx\core\BepInEx.dll')" Text="BepInEx was not found in the Gale profile '$(GaleProfile)'. Select an installed Gale profile with -p:GaleProfile=..." />
+    <Error Condition="!Exists('$(GaleProfile)\BepInEx\core\0Harmony.dll')" Text="Harmony was not found in the Gale profile '$(GaleProfile)'." />
+    <Error Condition="!Exists('$(ValheimInstall)\valheim_Data\Managed\assembly_valheim.dll')" Text="Valheim was not found at '$(ValheimInstall)'. Set the ValheimInstall MSBuild property to your game directory." />
+  </Target>
+</Project>

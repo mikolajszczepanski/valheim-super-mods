@@ -6,11 +6,15 @@ Small C# plugins for [Valheim](https://www.valheimgame.com/), built with [BepInE
 
 | Plugin | What it does |
 | --- | --- |
-| [Extended Player Capacity](ValheimMods/ExtendedPlayerCapacity/README.md) | Multiplies a player's base carry weight by 10 (normally 300 to 3,000) and gives the inventory at least 64 slots in an 8 × 8 grid. Existing larger inventories are preserved. |
+| [Increased Carry Weight](ValheimMods/IncreasedCarryWeight/README.md) | Multiplies a player's base carry weight by 10 (normally 300 to 3,000). |
+| [Expanded Player Inventory](ValheimMods/ExpandedPlayerInventory/README.md) | Gives the player at least 64 inventory slots in an 8 × 8 grid. Existing larger inventories are preserved. |
+| [Expanded Item Stacks](ValheimMods/ExpandedItemStacks/README.md) | Multiplies stackable item limits by 20, up to 65,535. |
+| [Expanded Placeable Chests](ValheimMods/ExpandedPlaceableChests/README.md) | Triples the slots in player-built chests by adding rows. |
+| [DevTools](ValheimMods/DevTools/README.md) | Adds the `spawn60` cheat command for testing. |
 | [Hello Valheim](ValheimMods/HelloValheim/README.md) | A minimal starter plugin that writes `Hello Valheim is loaded!` to the BepInEx log. It is useful for checking that your build and modded launch work. |
 | [Unlimited Stamina](ValheimMods/UnlimitedStamina/README.md) | Gives players unlimited stamina for movement and stamina-based actions. |
 
-**Inventory note:** Extended Player Capacity saves the extra inventory rows with the character. Removing the plugin does not shrink the inventory back to 32 slots. For multiplayer, each player who wants the changes should install the plugin in their own profile.
+**Inventory note:** Expanded Player Inventory saves the extra inventory rows with the character. Removing the plugin does not shrink the inventory back to 32 slots. For multiplayer, each player who wants the extra rows should install the plugin in their own profile.
 
 ## Requirements
 
@@ -51,7 +55,11 @@ ValheimMods/
   ValheimMods.sln                 Visual Studio solution
   Directory.Build.props          Default Gale profile and deployment path
   Directory.Build.targets        Copies plugin DLLs after a build
-  ExtendedPlayerCapacity/        Carry weight and inventory plugin
+  IncreasedCarryWeight/          Player carry weight plugin
+  ExpandedPlayerInventory/       Player inventory row plugin
+  ExpandedItemStacks/            Item stack limit plugin
+  ExpandedPlaceableChests/       Player-built chest slot plugin
+  DevTools/                      Developer console commands
   HelloValheim/                  Minimal logging plugin
   UnlimitedStamina/              Unlimited player stamina plugin
 ```

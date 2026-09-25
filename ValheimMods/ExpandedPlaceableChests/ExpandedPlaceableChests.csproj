@@ -2,8 +2,8 @@
   <PropertyGroup>
     <TargetFramework>netstandard2.1</TargetFramework>
     <OutputType>Library</OutputType>
-    <AssemblyName>ExtendedPlayerCapacity</AssemblyName>
-    <RootNamespace>ExtendedPlayerCapacity</RootNamespace>
+    <AssemblyName>ExpandedPlaceableChests</AssemblyName>
+    <RootNamespace>ExpandedPlaceableChests</RootNamespace>
     <LangVersion>latest</LangVersion>
     <IsValheimPlugin>true</IsValheimPlugin>
     <ValheimInstall Condition="'$(ValheimInstall)' == ''">C:\Program Files (x86)\Steam\steamapps\common\Valheim</ValheimInstall>
