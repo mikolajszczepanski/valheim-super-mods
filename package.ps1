@@ -46,7 +46,7 @@ foreach ($project in $projects) {
     $projectDir = $project.FullName
     $manifestPath = Join-Path $projectDir 'manifest.json'
     $readmePath = Join-Path $projectDir 'README.md'
-    $changelogPath = Join-Path $projectDir 'changelog.md'
+    $changelogPath = Join-Path $projectDir 'CHANGELOG.md'
     $icon = Join-Path $projectDir 'icon.png'
     $pluginSource = Join-Path $projectDir 'Plugin.cs'
     $dllPath = Join-Path $projectDir "bin\$Configuration\netstandard2.1\$name.dll"
@@ -67,10 +67,10 @@ foreach ($project in $projects) {
     if ($manifest.name -cne $name) { throw "$name manifest name must match the project directory." }
     if ($manifest.version_number -notmatch '^\d+\.\d+\.\d+$') { throw "$name has an invalid Thunderstore version." }
     $changelog = Get-Content -LiteralPath $changelogPath -Raw
-    $versionHeading = '(?m)^## ' + [regex]::Escape($manifest.version_number) + '\s*$'
-    if ($changelog -notmatch $versionHeading) { throw "$name changelog.md must have a heading for version $($manifest.version_number)." }
+    $versionHeading = '(?m)^## v' + [regex]::Escape($manifest.version_number) + '[ \t]*\r?$'
+    if ($changelog -notmatch $versionHeading) { throw "$name CHANGELOG.md must have a heading for version $($manifest.version_number)." }
     $readme = Get-Content -LiteralPath $readmePath -Raw
-    if ($readme -match '(?m)^## Changelog\s*$') { throw "$name README.md must keep release history only in changelog.md." }
+    if ($readme -match '(?mi)^## Changelog[ \t]*\r?$') { throw "$name README.md must keep release history only in CHANGELOG.md." }
     if ($manifest.description.Length -gt 250) { throw "$name description is longer than 250 characters." }
     if ($manifest.dependencies -notcontains 'denikson-BepInExPack_Valheim-5.4.2351') {
         throw "$name must declare the Valheim BepInEx pack dependency."
@@ -88,7 +88,7 @@ foreach ($project in $projects) {
     try {
         [IO.Compression.ZipFileExtensions]::CreateEntryFromFile($archive, $manifestPath, 'manifest.json') | Out-Null
         [IO.Compression.ZipFileExtensions]::CreateEntryFromFile($archive, $readmePath, 'README.md') | Out-Null
-        [IO.Compression.ZipFileExtensions]::CreateEntryFromFile($archive, $changelogPath, 'changelog.md') | Out-Null
+        [IO.Compression.ZipFileExtensions]::CreateEntryFromFile($archive, $changelogPath, 'CHANGELOG.md') | Out-Null
         [IO.Compression.ZipFileExtensions]::CreateEntryFromFile($archive, $icon, 'icon.png') | Out-Null
         [IO.Compression.ZipFileExtensions]::CreateEntryFromFile($archive, $license, 'LICENSE') | Out-Null
         [IO.Compression.ZipFileExtensions]::CreateEntryFromFile($archive, $dllPath, "$name.dll") | Out-Null
