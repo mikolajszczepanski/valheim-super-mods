@@ -1,0 +1,7 @@
+{
+  "name": "ExpandedPlaceableChests",
+  "version_number": "1.0.0",
+  "website_url": "https://github.com/mikolajszczepanski/valheim-super-mods",
+  "description": "Triples the inventory slots in player-built chests.",
+  "dependencies": ["denikson-BepInExPack_Valheim-5.4.2351"]
+}

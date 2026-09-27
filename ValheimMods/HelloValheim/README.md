@@ -1,12 +1,16 @@
 # Hello Valheim
 
-A minimal BepInEx 5 plugin. When Valheim loads it, the plugin writes `Hello Valheim is loaded!` to the BepInEx log. The project references the BepInEx installation in the selected Gale Valheim profile (`Default` unless overridden).
+A minimal BepInEx 5 plugin. When Valheim loads it, the plugin writes `Hello Valheim is loaded!` to the BepInEx log.
 
-## Requirement
+## Install
 
-Install the [Valheim BepInEx pack](https://thunderstore.io/c/valheim/p/denikson/BepInExPack_Valheim/) in your Valheim profile through [Gale](https://github.com/Kesomannen/gale). BepInEx in that Gale profile is required to build and run this plugin. Launch Valheim with **Start modded** in Gale so BepInEx loads the plugin.
+Install this package with Gale, r2modman, or Thunderstore Mod Manager. The manager installs its Valheim BepInEx pack dependency. Launch Valheim with **Start modded**.
 
-## Build
+### Manual installation
+
+Install the [Valheim BepInEx pack](https://thunderstore.io/c/valheim/p/denikson/BepInExPack_Valheim/) first. Download this package's ZIP, extract it, and place the extracted folder under the active Valheim profile's `BepInEx/plugins` directory. Keep `HelloValheim.dll` inside that folder; `manifest.json`, `README.md`, and `icon.png` can stay there too. Remove any older copy of `HelloValheim.dll` elsewhere in `BepInEx/plugins`, then launch Valheim modded.
+
+## Build from source
 
 1. From the solution folder, run:
 
@@ -21,3 +25,7 @@ Install the [Valheim BepInEx pack](https://thunderstore.io/c/valheim/p/denikson/
 2. Launch Valheim with **Start modded** in Gale and check Gale's BepInEx log for the message.
 
 The build copies DLLs from this project's output folder. BepInEx and Unity runtime assemblies are supplied by Gale's profile and the game; the project does not copy those assemblies.
+
+## License
+
+GNU GPL v3.0 only (`GPL-3.0-only`). See the [repository license](https://github.com/mikolajszczepanski/valheim-super-mods/blob/main/LICENSE).

@@ -1,0 +1,7 @@
+{
+  "name": "DevTools",
+  "version_number": "1.0.0",
+  "website_url": "https://github.com/mikolajszczepanski/valheim-super-mods",
+  "description": "Adds a spawn60 developer console command for testing materials.",
+  "dependencies": ["denikson-BepInExPack_Valheim-5.4.2351"]
+}

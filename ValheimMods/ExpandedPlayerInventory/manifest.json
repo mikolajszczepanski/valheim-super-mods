@@ -1,0 +1,7 @@
+{
+  "name": "ExpandedPlayerInventory",
+  "version_number": "1.0.0",
+  "website_url": "https://github.com/mikolajszczepanski/valheim-super-mods",
+  "description": "Expands the player inventory to at least 64 slots in eight rows.",
+  "dependencies": ["denikson-BepInExPack_Valheim-5.4.2351"]
+}

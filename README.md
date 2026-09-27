@@ -2,6 +2,8 @@
 
 Small C# plugins for [Valheim](https://www.valheimgame.com/), built with [BepInEx](https://thunderstore.io/c/valheim/p/denikson/BepInExPack_Valheim/). This repository contains the Visual Studio solution and source for each plugin. You can build them together or work on one project at a time.
 
+Browse all published plugins on [Thunderstore](https://thunderstore.io/c/valheim/p/ValheimSuperMods/).
+
 ## Plugins
 
 | Plugin | What it does |
@@ -50,6 +52,12 @@ dotnet build .\ValheimMods\ValheimMods.sln -p:GaleProfile="C:\path\to\your\Gale\
 
 You can set `ValheimPluginsPath` to choose a different `BepInEx\plugins` destination. See each plugin's README for details and limitations.
 
+## Package for Thunderstore and Gale
+
+Run `powershell -NoProfile -ExecutionPolicy Bypass -File .\package.ps1` from the repository root. This builds the solution in Release configuration and writes one Thunderstore-compatible ZIP per plugin to `dist/`. Each archive contains that plugin's DLL, manifest, README, the shared 256 × 256 icon, and the license. The build still deploys DLLs to the selected Gale profile. Pass `-SkipBuild` to package an existing Release build, or `-Plugin UnlimitedStamina` to package one plugin.
+
+To publish locally, install `tcli` with `dotnet tool install tcli --tool-path .tools --version 0.2.4`, create a Thunderstore team service-account token, and save it outside the repository in `%USERPROFILE%\.thunderstore_token`. Run `powershell -NoProfile -ExecutionPolicy Bypass -File .\publish-thunderstore.ps1` to prepare and inspect publisher settings, then add `-Publish` to upload. Use `-Plugin UnlimitedStamina` to upload one plugin. Package versions must match the corresponding `BepInPlugin` versions; `package.ps1` verifies this. The ZIPs, local publisher configuration, and tool installation are ignored by Git.
+
 ## Repository layout
 
 ```text
@@ -72,4 +80,4 @@ Contributions and issue reports are welcome. Keep new plugins in separate projec
 
 ## License
 
-This repository does not yet include a license file. The source is public, but reuse and redistribution terms have not been specified.
+This repository is licensed under the [GNU General Public License v3.0 only](LICENSE) (`GPL-3.0-only`). Copyright (C) 2026 ValheimSuperMods contributors.

@@ -1,0 +1,7 @@
+{
+  "name": "UnlimitedStamina",
+  "version_number": "1.0.0",
+  "website_url": "https://github.com/mikolajszczepanski/valheim-super-mods",
+  "description": "Provides unlimited stamina for movement and stamina-based actions.",
+  "dependencies": ["denikson-BepInExPack_Valheim-5.4.2351"]
+}

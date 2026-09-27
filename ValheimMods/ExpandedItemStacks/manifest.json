@@ -1,0 +1,7 @@
+{
+  "name": "ExpandedItemStacks",
+  "version_number": "1.0.0",
+  "website_url": "https://github.com/mikolajszczepanski/valheim-super-mods",
+  "description": "Multiplies stackable item limits by 20, up to 65,535.",
+  "dependencies": ["denikson-BepInExPack_Valheim-5.4.2351"]
+}
