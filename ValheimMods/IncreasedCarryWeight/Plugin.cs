@@ -3,7 +3,7 @@ using HarmonyLib;
 
 namespace IncreasedCarryWeight
 {
-    [BepInPlugin(PluginId, "Increased Carry Weight", "1.0.0")]
+    [BepInPlugin(PluginId, "Increased Carry Weight", "1.0.1")]
     public sealed class Plugin : BaseUnityPlugin
     {
         private const string PluginId = "com.valheimmods.increasedcarryweight";

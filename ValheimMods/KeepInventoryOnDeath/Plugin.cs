@@ -3,7 +3,7 @@ using HarmonyLib;
 
 namespace KeepInventoryOnDeath
 {
-    [BepInPlugin(PluginId, "Keep Inventory On Death", "1.0.0")]
+    [BepInPlugin(PluginId, "Keep Inventory On Death", "1.0.1")]
     public sealed class Plugin : BaseUnityPlugin
     {
         private const string PluginId = "com.valheimmods.keepinventoryondeath";

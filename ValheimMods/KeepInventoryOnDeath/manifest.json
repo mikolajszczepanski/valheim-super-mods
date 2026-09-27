@@ -1,7 +1,7 @@
 {
   "name": "KeepInventoryOnDeath",
-  "version_number": "1.0.0",
+  "version_number": "1.0.1",
   "website_url": "https://github.com/mikolajszczepanski/valheim-super-mods",
-  "description": "Keeps inventory and equipped items when the player dies.",
+  "description": "Keeps carried and equipped items through death, without a tombstone.",
   "dependencies": ["denikson-BepInExPack_Valheim-5.4.2351"]
 }

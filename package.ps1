@@ -12,7 +12,6 @@ $ErrorActionPreference = 'Stop'
 $repoRoot = $PSScriptRoot
 $solutionRoot = Join-Path $repoRoot 'ValheimMods'
 $solution = Join-Path $solutionRoot 'ValheimMods.sln'
-$icon = Join-Path $solutionRoot 'Publishing\icon.png'
 $license = Join-Path $repoRoot 'LICENSE'
 $dist = if ($OutputDirectory) { [IO.Path]::GetFullPath($OutputDirectory) } else { Join-Path $repoRoot 'dist' }
 
@@ -35,15 +34,8 @@ if (-not $SkipBuild) {
     if ($LASTEXITCODE -ne 0) { throw "dotnet build failed with exit code $LASTEXITCODE." }
 }
 
-$iconBytes = [IO.File]::ReadAllBytes($icon)
 if (-not (Test-Path -LiteralPath $license -PathType Leaf)) { throw "Missing license file: $license" }
 $pngSignature = @(137, 80, 78, 71, 13, 10, 26, 10)
-for ($i = 0; $i -lt $pngSignature.Count; $i++) {
-    if ($iconBytes[$i] -ne $pngSignature[$i]) { throw 'Publishing icon is not a PNG.' }
-}
-$iconWidth = [BitConverter]::ToInt32(@($iconBytes[19], $iconBytes[18], $iconBytes[17], $iconBytes[16]), 0)
-$iconHeight = [BitConverter]::ToInt32(@($iconBytes[23], $iconBytes[22], $iconBytes[21], $iconBytes[20]), 0)
-if ($iconWidth -ne 256 -or $iconHeight -ne 256) { throw 'Publishing icon must be 256x256.' }
 
 New-Item -ItemType Directory -Force -Path $dist | Out-Null
 Add-Type -AssemblyName System.IO.Compression
@@ -54,15 +46,31 @@ foreach ($project in $projects) {
     $projectDir = $project.FullName
     $manifestPath = Join-Path $projectDir 'manifest.json'
     $readmePath = Join-Path $projectDir 'README.md'
+    $changelogPath = Join-Path $projectDir 'changelog.md'
+    $icon = Join-Path $projectDir 'icon.png'
     $pluginSource = Join-Path $projectDir 'Plugin.cs'
     $dllPath = Join-Path $projectDir "bin\$Configuration\netstandard2.1\$name.dll"
-    foreach ($path in @($manifestPath, $readmePath, $pluginSource, $dllPath)) {
+    foreach ($path in @($manifestPath, $readmePath, $changelogPath, $icon, $pluginSource, $dllPath)) {
         if (-not (Test-Path -LiteralPath $path -PathType Leaf)) { throw "Missing required file: $path" }
     }
+
+    $iconBytes = [IO.File]::ReadAllBytes($icon)
+    if ($iconBytes.Length -lt 24) { throw "$name icon is not a valid PNG." }
+    for ($i = 0; $i -lt $pngSignature.Count; $i++) {
+        if ($iconBytes[$i] -ne $pngSignature[$i]) { throw "$name icon is not a PNG." }
+    }
+    $iconWidth = [BitConverter]::ToInt32(@($iconBytes[19], $iconBytes[18], $iconBytes[17], $iconBytes[16]), 0)
+    $iconHeight = [BitConverter]::ToInt32(@($iconBytes[23], $iconBytes[22], $iconBytes[21], $iconBytes[20]), 0)
+    if ($iconWidth -ne 256 -or $iconHeight -ne 256) { throw "$name icon must be 256x256." }
 
     $manifest = Get-Content -LiteralPath $manifestPath -Raw | ConvertFrom-Json
     if ($manifest.name -cne $name) { throw "$name manifest name must match the project directory." }
     if ($manifest.version_number -notmatch '^\d+\.\d+\.\d+$') { throw "$name has an invalid Thunderstore version." }
+    $changelog = Get-Content -LiteralPath $changelogPath -Raw
+    $versionHeading = '(?m)^## ' + [regex]::Escape($manifest.version_number) + '\s*$'
+    if ($changelog -notmatch $versionHeading) { throw "$name changelog.md must have a heading for version $($manifest.version_number)." }
+    $readme = Get-Content -LiteralPath $readmePath -Raw
+    if ($readme -match '(?m)^## Changelog\s*$') { throw "$name README.md must keep release history only in changelog.md." }
     if ($manifest.description.Length -gt 250) { throw "$name description is longer than 250 characters." }
     if ($manifest.dependencies -notcontains 'denikson-BepInExPack_Valheim-5.4.2351') {
         throw "$name must declare the Valheim BepInEx pack dependency."
@@ -80,6 +88,7 @@ foreach ($project in $projects) {
     try {
         [IO.Compression.ZipFileExtensions]::CreateEntryFromFile($archive, $manifestPath, 'manifest.json') | Out-Null
         [IO.Compression.ZipFileExtensions]::CreateEntryFromFile($archive, $readmePath, 'README.md') | Out-Null
+        [IO.Compression.ZipFileExtensions]::CreateEntryFromFile($archive, $changelogPath, 'changelog.md') | Out-Null
         [IO.Compression.ZipFileExtensions]::CreateEntryFromFile($archive, $icon, 'icon.png') | Out-Null
         [IO.Compression.ZipFileExtensions]::CreateEntryFromFile($archive, $license, 'LICENSE') | Out-Null
         [IO.Compression.ZipFileExtensions]::CreateEntryFromFile($archive, $dllPath, "$name.dll") | Out-Null

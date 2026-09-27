@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace DismantleEquipment
 {
-    [BepInPlugin(PluginId, "Dismantle Equipment", "1.0.1")]
+    [BepInPlugin(PluginId, "Dismantle Equipment", "1.0.2")]
     public sealed class Plugin : BaseUnityPlugin
     {
         private const string PluginId = "com.valheimmods.dismantleequipment";

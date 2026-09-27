@@ -3,7 +3,7 @@ using HarmonyLib;
 
 namespace UnlimitedStamina
 {
-    [BepInPlugin(PluginId, "Unlimited Stamina", "1.0.0")]
+    [BepInPlugin(PluginId, "Unlimited Stamina", "1.0.1")]
     public sealed class Plugin : BaseUnityPlugin
     {
         private const string PluginId = "com.valheimmods.unlimitedstamina";

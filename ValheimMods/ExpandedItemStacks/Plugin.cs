@@ -5,7 +5,7 @@ using HarmonyLib;
 
 namespace ExpandedItemStacks
 {
-    [BepInPlugin(PluginId, "Expanded Item Stacks", "1.0.0")]
+    [BepInPlugin(PluginId, "Expanded Item Stacks", "1.0.1")]
     public sealed class Plugin : BaseUnityPlugin
     {
         private const string PluginId = "com.valheimmods.expandeditemstacks";

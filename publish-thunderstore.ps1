@@ -56,7 +56,7 @@ containsNsfwContent = false
 denikson-BepInExPack_Valheim = "5.4.2351"
 
 [build]
-icon = "../ValheimMods/Publishing/icon.png"
+icon = "../ValheimMods/$($manifest.name)/icon.png"
 readme = "../ValheimMods/$($manifest.name)/README.md"
 outdir = "./build"
 

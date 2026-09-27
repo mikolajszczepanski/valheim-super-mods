@@ -1,7 +1,7 @@
 {
   "name": "DismantleEquipment",
-  "version_number": "1.0.1",
+  "version_number": "1.0.2",
   "website_url": "https://github.com/mikolajszczepanski/valheim-super-mods",
-  "description": "Shift-right-click crafted equipment to dismantle it and recover its recipe materials.",
+  "description": "Shift-right-click crafted equipment to reclaim its recipe materials.",
   "dependencies": ["denikson-BepInExPack_Valheim-5.4.2351"]
 }

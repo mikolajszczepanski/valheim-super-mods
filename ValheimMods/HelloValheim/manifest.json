@@ -1,7 +1,7 @@
 {
   "name": "HelloValheim",
-  "version_number": "1.0.0",
+  "version_number": "1.0.1",
   "website_url": "https://github.com/mikolajszczepanski/valheim-super-mods",
-  "description": "Minimal starter plugin that logs when Valheim loads it.",
+  "description": "Logs a startup message when the plugin loads in Valheim.",
   "dependencies": ["denikson-BepInExPack_Valheim-5.4.2351"]
 }

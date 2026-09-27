@@ -18,14 +18,6 @@ Install the [Valheim BepInEx pack](https://thunderstore.io/c/valheim/p/denikson/
 
 Run `dotnet build .\ValheimMods\ValheimMods.sln` from the repository root. The shared build target copies `DismantleEquipment.dll` to the selected Gale profile's `BepInEx\plugins` folder. Start Valheim with **Start modded** in Gale.
 
-## Changelog
-
-### 1.0.1
-
-- Initial Thunderstore release: Shift + right-click a crafted inventory item to dismantle a complete crafting batch and drop its recipe materials at your feet.
-- Recover materials used for completed quality upgrades. Equipped items are unequipped before dismantling.
-- Reject partial batches and recipes with alternative ingredients where the original materials cannot be determined.
-
 ## License
 
 GNU GPL v3.0 only (`GPL-3.0-only`). See the `LICENSE` file included in the package.
