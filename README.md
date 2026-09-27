@@ -1,8 +1,10 @@
 # Valheim Super Mods
 
-Small C# plugins for [Valheim](https://www.valheimgame.com/), built with [BepInEx](https://thunderstore.io/c/valheim/p/denikson/BepInExPack_Valheim/). This repository contains the Visual Studio solution and source for each plugin. You can build them together or work on one project at a time.
+Small mods for [Valheim](https://www.valheimgame.com/) that change things like inventory space, stamina, and what happens when you die. See the list below to find out what each mod does.
 
-Browse all published plugins on [Thunderstore](https://thunderstore.io/c/valheim/p/ValheimSuperMods/).
+Want to install one? Find the published mods on [Thunderstore](https://thunderstore.io/c/valheim/p/ValheimSuperMods/). If you have a problem with a mod or an idea for one, [report it on GitHub Issues](https://github.com/mikolajszczepanski/valheim-super-mods/issues).
+
+This repository contains the source code and build instructions for people who want to work on the mods.
 
 ## Plugins
 
@@ -20,11 +22,13 @@ Browse all published plugins on [Thunderstore](https://thunderstore.io/c/valheim
 
 **Inventory note:** Expanded Player Inventory saves the extra inventory rows with the character. Removing the plugin does not shrink the inventory back to 32 slots. For multiplayer, each player who wants the extra rows should install the plugin in their own profile.
 
-## Requirements
+## Local development requirements
 
 - Valheim installed on Windows.
 - A .NET SDK or Visual Studio with C# development tools to build the solution.
 - [Gale mod manager](https://github.com/Kesomannen/gale) with the [Valheim BepInEx pack](https://thunderstore.io/c/valheim/p/denikson/BepInExPack_Valheim/) installed in the Valheim profile you use. BepInEx through Gale is required to build and run these plugins. Start the game with **Start modded** in Gale.
+
+Before building locally, remove any mod-manager-installed copies of these plugins from the Gale profile you will use for testing. Local builds copy plugin DLLs into that profile, and duplicate copies can conflict. Keep the BepInEx pack installed.
 
 The projects expect Valheim at `C:\Program Files (x86)\Steam\steamapps\common\Valheim` and Gale's Valheim `Default` profile at `%APPDATA%\com.kesomannen.gale\valheim\profiles\Default`. You can override either path when building.
 
