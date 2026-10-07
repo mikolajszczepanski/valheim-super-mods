@@ -1,0 +1,7 @@
+{
+  "name": "UnlimitedCarryWeight",
+  "version_number": "1.0.0",
+  "website_url": "https://github.com/mikolajszczepanski/valheim-super-mods",
+  "description": "Removes the player carry weight limit while preserving item weights and inventory slots. Inventory displays show unlimited capacity.",
+  "dependencies": ["denikson-BepInExPack_Valheim-5.4.2351"]
+}

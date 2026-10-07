@@ -21,6 +21,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KeepInventoryOnDeath", "Kee
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DismantleEquipment", "DismantleEquipment\DismantleEquipment.csproj", "{846E4A8A-9660-49E4-95B1-824BC617AF41}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnlimitedCarryWeight", "UnlimitedCarryWeight\UnlimitedCarryWeight.csproj", "{1C297CD8-B2B5-438D-A3A5-78D52D05DD83}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -139,6 +141,18 @@ Global
 		{846E4A8A-9660-49E4-95B1-824BC617AF41}.Release|x64.Build.0 = Release|Any CPU
 		{846E4A8A-9660-49E4-95B1-824BC617AF41}.Release|x86.ActiveCfg = Release|Any CPU
 		{846E4A8A-9660-49E4-95B1-824BC617AF41}.Release|x86.Build.0 = Release|Any CPU
+		{1C297CD8-B2B5-438D-A3A5-78D52D05DD83}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1C297CD8-B2B5-438D-A3A5-78D52D05DD83}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1C297CD8-B2B5-438D-A3A5-78D52D05DD83}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{1C297CD8-B2B5-438D-A3A5-78D52D05DD83}.Debug|x64.Build.0 = Debug|Any CPU
+		{1C297CD8-B2B5-438D-A3A5-78D52D05DD83}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{1C297CD8-B2B5-438D-A3A5-78D52D05DD83}.Debug|x86.Build.0 = Debug|Any CPU
+		{1C297CD8-B2B5-438D-A3A5-78D52D05DD83}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1C297CD8-B2B5-438D-A3A5-78D52D05DD83}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1C297CD8-B2B5-438D-A3A5-78D52D05DD83}.Release|x64.ActiveCfg = Release|Any CPU
+		{1C297CD8-B2B5-438D-A3A5-78D52D05DD83}.Release|x64.Build.0 = Release|Any CPU
+		{1C297CD8-B2B5-438D-A3A5-78D52D05DD83}.Release|x86.ActiveCfg = Release|Any CPU
+		{1C297CD8-B2B5-438D-A3A5-78D52D05DD83}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

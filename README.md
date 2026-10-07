@@ -11,6 +11,7 @@ This repository contains the source code and build instructions for people who w
 | Plugin | What it does |
 | --- | --- |
 | [Increased Carry Weight](ValheimMods/IncreasedCarryWeight/README.md) | Multiplies a player's base carry weight by 10 (normally 300 to 3,000). |
+| [Unlimited Carry Weight](ValheimMods/UnlimitedCarryWeight/README.md) | Removes the player carry weight limit while preserving item weights and inventory slots. |
 | [Expanded Player Inventory](ValheimMods/ExpandedPlayerInventory/README.md) | Gives the player at least 64 inventory slots in an 8 × 8 grid. Existing larger inventories are preserved. |
 | [Keep Inventory On Death](ValheimMods/KeepInventoryOnDeath/README.md) | Keeps all inventory items, including equipped items, when a player dies. |
 | [Dismantle Equipment](ValheimMods/DismantleEquipment/README.md) | Shift + right-click a crafted inventory item to reclaim its recipe materials at your feet. |
@@ -28,7 +29,7 @@ This repository contains the source code and build instructions for people who w
 - A .NET SDK or Visual Studio with C# development tools to build the solution.
 - [Gale mod manager](https://github.com/Kesomannen/gale) with the [Valheim BepInEx pack](https://thunderstore.io/c/valheim/p/denikson/BepInExPack_Valheim/) installed in the Valheim profile you use. BepInEx through Gale is required to build and run these plugins. Start the game with **Start modded** in Gale.
 
-Before building locally, remove any mod-manager-installed copies of these plugins from the Gale profile you will use for testing. Local builds copy plugin DLLs into that profile, and duplicate copies can conflict. Keep the BepInEx pack installed.
+Before copying a local build into your testing profile, remove any mod-manager-installed duplicate of that plugin. Duplicate copies can conflict. Keep the BepInEx pack installed. Building alone does not change your profile.
 
 The projects expect Valheim at `C:\Program Files (x86)\Steam\steamapps\common\Valheim` and Gale's Valheim `Default` profile at `%APPDATA%\com.kesomannen.gale\valheim\profiles\Default`. You can override either path when building.
 
@@ -40,13 +41,27 @@ From the repository root, run:
 dotnet build .\ValheimMods\ValheimMods.sln
 ```
 
-After a successful build, the shared [build target](ValheimMods/Directory.Build.targets) copies **all DLLs in each plugin project's output folder** to the selected Gale profile's `BepInEx\plugins` folder. With the default profile, that destination is:
+Building copies nothing to your local mods folder by default. After building, explicitly select the mods you want to copy. For example, copy only Unlimited Carry Weight from the existing Debug build:
+
+```powershell
+.\copy-mods.ps1 -Plugin UnlimitedCarryWeight
+```
+
+To copy several mods, pass their project names as a PowerShell array, for example `-Plugin UnlimitedCarryWeight,UnlimitedStamina`. Use `-Configuration Release` for an existing Release build. The script checks the requested outputs, then uses the shared [copy target](ValheimMods/Directory.Build.targets) to copy DLLs from only those projects. It does not rebuild or remove other installed mods. Copying prints the full destination path. With the default profile, that destination is:
 
 ```text
 %APPDATA%\com.kesomannen.gale\valheim\profiles\Default\BepInEx\plugins
 ```
 
-Launch Valheim with **Start modded** in Gale. To use only one plugin, build its `.csproj` and remove any other plugin DLLs you do not want from the Gale profile; building one project does not remove DLLs copied by an earlier build.
+Launch Valheim with **Start modded** in Gale after copying the mods you selected. When working with an agent, it must ask which mods to copy after a build unless you already explicitly selected them, and show the local folder path after copying.
+
+For an explicitly requested copy during a build, select the project by name:
+
+```powershell
+dotnet build .\ValheimMods\ValheimMods.sln -p:ValheimPluginsToCopy=UnlimitedCarryWeight
+```
+
+Only the named project copies its output DLLs. For multiple selections, use `copy-mods.ps1` after building.
 
 If your paths differ, pass MSBuild properties, for example:
 
@@ -54,11 +69,11 @@ If your paths differ, pass MSBuild properties, for example:
 dotnet build .\ValheimMods\ValheimMods.sln -p:GaleProfile="C:\path\to\your\Gale\profile" -p:ValheimInstall="D:\SteamLibrary\steamapps\common\Valheim"
 ```
 
-You can set `ValheimPluginsPath` to choose a different `BepInEx\plugins` destination. See each plugin's README for details and limitations.
+You can set `ValheimPluginsPath` to choose a different `BepInEx\plugins` destination. The copy script accepts `-GaleProfile` and `-ValheimPluginsPath` too. Changing the destination or selecting a Gale profile does not enable copying by itself. See each plugin's README for gameplay details and installation instructions; the copy procedure above applies to all source builds.
 
 ## Package for Thunderstore and Gale
 
-Run `powershell -NoProfile -ExecutionPolicy Bypass -File .\package.ps1` from the repository root. This builds the solution in Release configuration and writes one Thunderstore-compatible ZIP per plugin to `dist/`. Each archive contains that plugin's DLL, manifest, README, `CHANGELOG.md`, its own 256 × 256 `icon.png`, and the license. Keep each icon and changelog in its plugin project folder. The build still deploys DLLs to the selected Gale profile. Pass `-SkipBuild` to package an existing Release build, or `-Plugin UnlimitedStamina` to package one plugin.
+Run `powershell -NoProfile -ExecutionPolicy Bypass -File .\package.ps1` from the repository root. This builds the solution in Release configuration and writes one Thunderstore-compatible ZIP per plugin to `dist/`. Each archive contains that plugin's DLL, manifest, README, `CHANGELOG.md`, its own 256 × 256 `icon.png`, and the license. Keep each icon and changelog in its plugin project folder. Packaging copies nothing to the local profile. Pass `-SkipBuild` to package an existing Release build, or `-Plugin UnlimitedStamina` to package one plugin. The package selection does not authorize copying; use `copy-mods.ps1` separately for explicitly selected mods.
 
 To publish locally, install `tcli` with `dotnet tool install tcli --tool-path .tools --version 0.2.4`, create a Thunderstore team service-account token, and save it outside the repository in `%USERPROFILE%\.thunderstore_token`. Run `powershell -NoProfile -ExecutionPolicy Bypass -File .\publish-thunderstore.ps1` to prepare and inspect publisher settings, then add `-Publish` to upload. Use `-Plugin UnlimitedStamina` to upload one plugin. Package versions must match the corresponding `BepInPlugin` versions; `package.ps1` verifies this. The ZIPs, local publisher configuration, and tool installation are ignored by Git.
 
@@ -68,8 +83,9 @@ To publish locally, install `tcli` with `dotnet tool install tcli --tool-path .t
 ValheimMods/
   ValheimMods.sln                 Visual Studio solution
   Directory.Build.props          Default Gale profile and deployment path
-  Directory.Build.targets        Copies plugin DLLs after a build
+  Directory.Build.targets        Copies only explicitly selected plugin DLLs
   IncreasedCarryWeight/          Player carry weight plugin
+  UnlimitedCarryWeight/          Unlimited player carry weight plugin
   ExpandedPlayerInventory/       Player inventory row plugin
   KeepInventoryOnDeath/          Retains inventory after death
   DismantleEquipment/            Recovers materials from crafted items
@@ -80,7 +96,7 @@ ValheimMods/
   UnlimitedStamina/              Unlimited player stamina plugin
 ```
 
-Contributions and issue reports are welcome. Keep new plugins in separate projects and use the shared build settings so their DLLs deploy to the selected Gale profile.
+Contributions and issue reports are welcome. Keep new plugins in separate projects and use the shared build settings. Copy only mods explicitly selected by the user.
 
 ## License
 

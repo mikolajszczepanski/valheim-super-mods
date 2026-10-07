@@ -1,5 +1,5 @@
 <Project>
-  <Target Name="CopyValheimPluginDlls" AfterTargets="Build" Condition="'$(IsValheimPlugin)' == 'true' and '$(TargetFramework)' != ''">
+  <Target Name="CopyValheimPluginDlls" AfterTargets="Build" Condition="'$(IsValheimPlugin)' == 'true' and '$(TargetFramework)' != '' and $([System.String]::Copy(';$(ValheimPluginsToCopy);').Contains(';$(MSBuildProjectName);'))">
     <Error Condition="!Exists('$(GaleProfile)\BepInEx\core\BepInEx.dll')" Text="BepInEx was not found in the Gale profile '$(GaleProfile)'." />
     <MakeDir Directories="$(ValheimPluginsPath)" />
     <ItemGroup>

@@ -2,5 +2,6 @@
   <PropertyGroup>
     <GaleProfile Condition="'$(GaleProfile)' == ''">$(APPDATA)\com.kesomannen.gale\valheim\profiles\Default</GaleProfile>
     <ValheimPluginsPath Condition="'$(ValheimPluginsPath)' == ''">$(GaleProfile)\BepInEx\plugins</ValheimPluginsPath>
+    <!-- Copying is opt-in: ValheimPluginsToCopy must explicitly list project names. -->
   </PropertyGroup>
 </Project>
